@@ -1,45 +1,38 @@
 package com.mohamed.EventManagementApplication.domain;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="ticket_types")
+@Table(name="ticket_validations")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TicketType {
+public class TicketValidation {
 
     @Id
     @Column(name = "id", updatable = false , nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "status" ,nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TicketValidationStatusEnum status;
 
-    @Column(name = "price", nullable = false)
-    private Double price;
-
-    @Column(name = "total_available", nullable = false)
-    private Integer totalAvailable;
+    @Column(name = "validation_method" ,nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TicketValidationMethodEnum validationMethod;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
-    private Event event;
-
-    @OneToMany(mappedBy = "ticketType", cascade = CascadeType.ALL)
-    private List<Ticket> tickets = new ArrayList<>();
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -48,5 +41,4 @@ public class TicketType {
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
 }
