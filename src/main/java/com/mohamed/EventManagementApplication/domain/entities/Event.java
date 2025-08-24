@@ -1,4 +1,4 @@
-package com.mohamed.EventManagementApplication.domain;
+package com.mohamed.EventManagementApplication.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

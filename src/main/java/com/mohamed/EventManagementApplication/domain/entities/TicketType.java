@@ -1,4 +1,4 @@
-package com.mohamed.EventManagementApplication.domain;
+package com.mohamed.EventManagementApplication.domain.entities;
 
 
 import jakarta.persistence.*;
@@ -32,7 +32,10 @@ public class TicketType {
     @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "total_available", nullable = false)
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "total_available")
     private Integer totalAvailable;
 
     @ManyToOne(fetch = FetchType.LAZY)

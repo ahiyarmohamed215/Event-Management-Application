@@ -1,6 +1,6 @@
 package com.mohamed.EventManagementApplication.filters;
 
-import com.mohamed.EventManagementApplication.domain.User;
+import com.mohamed.EventManagementApplication.domain.entities.User;
 import com.mohamed.EventManagementApplication.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
