@@ -2,10 +2,9 @@ package com.mohamed.EventManagementApplication.mappers;
 
 import com.mohamed.EventManagementApplication.domain.CreateEventRequest;
 import com.mohamed.EventManagementApplication.domain.CreateTicketTypeRequest;
-import com.mohamed.EventManagementApplication.domain.dtos.CreateEventRequestDto;
-import com.mohamed.EventManagementApplication.domain.dtos.CreateEventResponseDto;
-import com.mohamed.EventManagementApplication.domain.dtos.CreateTicketTypeRequestDto;
+import com.mohamed.EventManagementApplication.domain.dtos.*;
 import com.mohamed.EventManagementApplication.domain.entities.Event;
+import com.mohamed.EventManagementApplication.domain.entities.TicketType;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -17,5 +16,12 @@ public interface EventMapper {
     CreateEventRequest fromDto(CreateEventRequestDto dto);
 
     CreateEventResponseDto toDto(Event event);
+
+    ListEventTicketTypeResponseDto toDto (TicketType ticketType);
+
+    ListEventResponseDto ListEventResponseToDto (Event event);
+
+
+
 
 }
