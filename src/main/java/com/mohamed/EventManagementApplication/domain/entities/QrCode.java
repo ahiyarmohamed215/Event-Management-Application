@@ -31,7 +31,7 @@ public class QrCode {
     private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "ticket_id")
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
     @CreatedDate
