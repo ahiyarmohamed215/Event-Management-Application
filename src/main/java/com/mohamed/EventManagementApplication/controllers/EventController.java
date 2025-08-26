@@ -3,17 +3,19 @@ package com.mohamed.EventManagementApplication.controllers;
 import com.mohamed.EventManagementApplication.domain.CreateEventRequest;
 import com.mohamed.EventManagementApplication.domain.dtos.CreateEventRequestDto;
 import com.mohamed.EventManagementApplication.domain.dtos.CreateEventResponseDto;
+import com.mohamed.EventManagementApplication.domain.dtos.ListEventResponseDto;
 import com.mohamed.EventManagementApplication.domain.entities.Event;
 import com.mohamed.EventManagementApplication.mappers.EventMapper;
 import com.mohamed.EventManagementApplication.services.EventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.UUID;
 
 @RestController
@@ -29,10 +31,21 @@ public class EventController {
             @AuthenticationPrincipal Jwt jwt,
             @Valid @RequestBody CreateEventRequestDto createEventRequestDto){
         CreateEventRequest createEventRequest = eventMapper.fromDto(createEventRequestDto);
-        UUID userId =UUID.fromString(jwt.getSubject());
+        UUID userId = parseUserId(jwt);
 
         Event createEvent = eventService.createEvent(userId,createEventRequest);
         CreateEventResponseDto createEventResponseDto = eventMapper.toDto(createEvent);
         return new ResponseEntity<>(createEventResponseDto, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<Page<ListEventResponseDto>> listEvents(
+            @AuthenticationPrincipal Jwt jwt, Pageable pageable) {
+        UUID userId = parseUserId(jwt);
+        Page<Event> events = eventService.listEventsForOrganizer(userId, pageable);
+        return ResponseEntity.ok(events.map(eventMapper::ListEventResponseToDto));
+    }
+
+    public UUID parseUserId(Jwt jwt){
+        return UUID.fromString(jwt.getSubject());
     }
 }
