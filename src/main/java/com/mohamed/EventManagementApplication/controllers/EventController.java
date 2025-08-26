@@ -3,6 +3,7 @@ package com.mohamed.EventManagementApplication.controllers;
 import com.mohamed.EventManagementApplication.domain.CreateEventRequest;
 import com.mohamed.EventManagementApplication.domain.dtos.CreateEventRequestDto;
 import com.mohamed.EventManagementApplication.domain.dtos.CreateEventResponseDto;
+import com.mohamed.EventManagementApplication.domain.dtos.GetEventDetailsResponseDto;
 import com.mohamed.EventManagementApplication.domain.dtos.ListEventResponseDto;
 import com.mohamed.EventManagementApplication.domain.entities.Event;
 import com.mohamed.EventManagementApplication.mappers.EventMapper;
@@ -38,11 +39,22 @@ public class EventController {
         return new ResponseEntity<>(createEventResponseDto, HttpStatus.CREATED);
     }
 
+    @GetMapping
     public ResponseEntity<Page<ListEventResponseDto>> listEvents(
             @AuthenticationPrincipal Jwt jwt, Pageable pageable) {
         UUID userId = parseUserId(jwt);
         Page<Event> events = eventService.listEventsForOrganizer(userId, pageable);
         return ResponseEntity.ok(events.map(eventMapper::ListEventResponseToDto));
+    }
+
+    @GetMapping(path = "/{eventId}")
+    public ResponseEntity<GetEventDetailsResponseDto> getEvents(
+            @AuthenticationPrincipal Jwt jwt, @PathVariable UUID eventId) {
+        UUID userId = parseUserId(jwt);
+        return eventService.getEventForOrganizer(userId,eventId)
+                .map(eventMapper::toGetEventDetailsResponseDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     public UUID parseUserId(Jwt jwt){
