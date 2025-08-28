@@ -1,6 +1,7 @@
 package com.mohamed.EventManagementApplication.services.impl;
 
 import com.mohamed.EventManagementApplication.domain.CreateEventRequest;
+import com.mohamed.EventManagementApplication.domain.UpdateEventRequest;
 import com.mohamed.EventManagementApplication.domain.entities.Event;
 import com.mohamed.EventManagementApplication.domain.entities.TicketType;
 import com.mohamed.EventManagementApplication.domain.entities.User;
@@ -65,5 +66,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public Optional<Event> getEventForOrganizer(UUID organizerId, UUID id) {
         return eventRepository.findByIdAndOrganizerId(id,organizerId);
+    }
+
+    @Override
+    public Event updateEventForOrganizer(UUID organizerId, UUID id, UpdateEventRequest eventRequest) {
+        return null;
     }
 }
