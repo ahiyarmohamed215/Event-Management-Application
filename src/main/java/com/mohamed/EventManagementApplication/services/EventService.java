@@ -1,6 +1,7 @@
 package com.mohamed.EventManagementApplication.services;
 
 import com.mohamed.EventManagementApplication.domain.CreateEventRequest;
+import com.mohamed.EventManagementApplication.domain.UpdateEventRequest;
 import com.mohamed.EventManagementApplication.domain.entities.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,4 +13,5 @@ public interface EventService {
     Event createEvent(UUID organizerId, CreateEventRequest eventRequest);
     Page<Event> listEventsForOrganizer (UUID organizerId, Pageable pageable);
     Optional<Event> getEventForOrganizer (UUID organizerId,UUID id);
+    Event updateEventForOrganizer (UUID organizerId, UUID id, UpdateEventRequest eventRequest);
 }
