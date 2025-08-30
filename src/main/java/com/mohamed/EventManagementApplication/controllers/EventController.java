@@ -1,10 +1,8 @@
 package com.mohamed.EventManagementApplication.controllers;
 
 import com.mohamed.EventManagementApplication.domain.CreateEventRequest;
-import com.mohamed.EventManagementApplication.domain.dtos.CreateEventRequestDto;
-import com.mohamed.EventManagementApplication.domain.dtos.CreateEventResponseDto;
-import com.mohamed.EventManagementApplication.domain.dtos.GetEventDetailsResponseDto;
-import com.mohamed.EventManagementApplication.domain.dtos.ListEventResponseDto;
+import com.mohamed.EventManagementApplication.domain.UpdateEventRequest;
+import com.mohamed.EventManagementApplication.domain.dtos.*;
 import com.mohamed.EventManagementApplication.domain.entities.Event;
 import com.mohamed.EventManagementApplication.mappers.EventMapper;
 import com.mohamed.EventManagementApplication.services.EventService;
@@ -59,5 +57,19 @@ public class EventController {
 
     public UUID parseUserId(Jwt jwt){
         return UUID.fromString(jwt.getSubject());
+    }
+
+    @PutMapping(path = "/{eventId}")
+    public ResponseEntity<UpdateEventResponseDto> updateEvent(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId,
+            @Valid @RequestBody UpdateEventRequestDto updateEventRequestDto){
+        UpdateEventRequest updateEventRequest = eventMapper.fromUpdateEventRequestDto(updateEventRequestDto);
+        UUID userId = parseUserId(jwt);
+
+        Event updateEvent = eventService.updateEventForOrganizer(
+                userId,eventId,updateEventRequest);
+        UpdateEventResponseDto updateEventResponseDto = eventMapper.toUpdateEventResponseDto(updateEvent);
+        return ResponseEntity.ok(updateEventResponseDto);
     }
 }
