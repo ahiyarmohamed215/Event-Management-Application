@@ -2,6 +2,8 @@ package com.mohamed.EventManagementApplication.mappers;
 
 import com.mohamed.EventManagementApplication.domain.CreateEventRequest;
 import com.mohamed.EventManagementApplication.domain.CreateTicketTypeRequest;
+import com.mohamed.EventManagementApplication.domain.UpdateEventRequest;
+import com.mohamed.EventManagementApplication.domain.UpdateTicketTypeRequest;
 import com.mohamed.EventManagementApplication.domain.dtos.*;
 import com.mohamed.EventManagementApplication.domain.entities.Event;
 import com.mohamed.EventManagementApplication.domain.entities.TicketType;
@@ -20,6 +22,14 @@ public interface EventMapper {
 
     GetEventTicketTypeResponseDto toGetEventTicketTypeResponseDto(TicketType ticketType);
     GetEventDetailsResponseDto toGetEventDetailsResponseDto(Event event);
+
+    UpdateTicketTypeRequest fromUpdateTicketTypeRequestDto (UpdateTicketTypeRequestDto dto);
+    UpdateEventRequest fromUpdateEventRequestDto (UpdateEventRequestDto dto);
+
+    UpdateTicketTypeResponseDto toUpdateTicketTypeResponseDto (TicketType ticketType);
+    UpdateEventResponseDto toUpdateEventResponseDto (Event event);
+
+
 
 
 }
